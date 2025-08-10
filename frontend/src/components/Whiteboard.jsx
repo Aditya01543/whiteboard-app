@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react'
 import { Circle, Hand, Minus, Move, Pencil, Square, Type } from 'lucide-react'
+import Tool from './Tool.jsx'
+import { boardManager } from '../managers/boardManager.js';
 
 function Whiteboard() {
   var svg, rc, s="", tsvg, tpath, tdot;
-  let drawing = false, moved = false;
-  let elements = [];
+  let moved = false;
+  const {addElement, setDrawing, setTool} = boardManager();
 
   const onMouseDown = (e) => {
     if (e.button !== 0) return;
@@ -18,13 +20,13 @@ function Whiteboard() {
     tdot.setAttribute("fill", "#F54927");
     svg.appendChild(tdot);
 
-    drawing = true;
+    setDrawing(true);
   }
 
   const onMouseMove = (e) => {
     if (e.button !== 0) return;
 
-    if(drawing){
+    if(boardManager.getState().drawing){
       s = s + " " + "L" + e.clientX.toString() + " " + e.clientY.toString();
 
       if(!moved){
@@ -40,10 +42,38 @@ function Whiteboard() {
     }
   }
 
+  const pencil = () => {
+    setTool("pencil");
+  }
+
+  const move = () => {
+    setTool("move");
+  }
+
+  const hand = () => {
+    setTool("hand");
+  }
+
+  const minus = () => {
+    setTool("minus");
+  }
+
+  const square = () => {
+    setTool("square");
+  }
+
+  const circle = () => {
+    setTool("circle");
+  }
+
+  const type = () => {
+    setTool("type");
+  }
+
   const onMouseUp = (e) => {
     if (e.button !== 0) return;
     
-    drawing = false;
+    setDrawing(false);
 
     if(moved){
       tdot = document.createElementNS("http://www.w3.org/2000/svg", "circle");
@@ -56,7 +86,7 @@ function Whiteboard() {
       moved = false;
     }
 
-    elements.push(s);
+    addElement(s);
     s = "";
   }
 
@@ -80,14 +110,16 @@ function Whiteboard() {
     <div className='w-screen h-screen flex items-center justify-center'>
         <div className='w-full h-full border-8 border-transparent absolute pointer-events-none'>
             <div className='absolute top-0 w-full flex justify-center pointer-events-auto'>
-                <div className='flex justify-center space-x-4'>
-                    <Hand/>
-                    <Move/>
-                    <Pencil/>
-                    <Minus/>
-                    <Square/>
-                    <Circle/>
-                    <Type/>
+                <div className='flex justify-center space-x-1'>
+
+                    <Tool Icon={Hand} onClick={hand}/>
+                    <Tool Icon={Move} onClick={move}/>
+                    <Tool Icon={Pencil} onClick={pencil}/>
+                    <Tool Icon={Minus} onClick={minus}/>
+                    <Tool Icon={Square} onClick={square}/>
+                    <Tool Icon={Circle} onClick={circle}/>
+                    <Tool Icon={Type} onClick={type}/>
+
                 </div>
             </div>
         </div>

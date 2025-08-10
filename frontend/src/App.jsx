@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import './App.css'
-import Whiteboard from './Whiteboard';
+import Whiteboard from './components/Whiteboard';
 
 function App() {
   return (
