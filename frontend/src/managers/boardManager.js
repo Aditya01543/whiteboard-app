@@ -4,6 +4,7 @@ export const boardManager = create((set, get) => ({
     drawing : false,
     currentTool : "pencil",
     elements : [],
+    cursor : "crosshair",
 
     addElement: (element) => {
         const {elements} = get();
@@ -16,7 +17,9 @@ export const boardManager = create((set, get) => ({
 
     setTool: (value) => {
         set({currentTool : value});
-        const {currentTool} = get();
-        console.log(currentTool);
+    },
+
+    setCursor: (value) => {
+        set({cursor : value});
     }
 }));

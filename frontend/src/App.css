@@ -1,1 +1,7 @@
 @import "tailwindcss";
+
+@layer utilities {
+  .cursor-circle {
+    cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='8' height='8'><circle cx='4' cy='4' r='4' stroke='black' stroke-width='1' fill='transparent' /></svg>") 4 4, auto;
+  }
+}
